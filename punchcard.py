@@ -110,6 +110,7 @@ if __name__ == '__main__':
         parser.print_usage()
         print "for more help use --help"
         sys.exit(1)
+    print(options)
     th = TimeHistory(options)
     th.add_logs()
     #th.dump()

@@ -3,12 +3,21 @@
 import sys
 import codecs
 import re
-import datetime
 import time
+from datetime import datetime
 from itertools import groupby
-import numpy as np
 import matplotlib.pyplot as plt
 import brewer2mpl
+from datetime import datetime
+
+
+if len(sys.argv) < 2:
+    print("Enter filename of tweet data for user.")
+    print("Get your data like this:")
+    print("\t``t timeline [USER] -n 3200 -l -c > tuits.csv")
+    print("Then run like this:")
+    print("\tpython analizar_tuits.py tuits.csv | python punchcard.py")
+    sys.exit(1)
 
 f = codecs.open(sys.argv[1].strip(), "r", "utf-8")
 datos = f.readlines()
@@ -22,12 +31,12 @@ for line in datos:
     if re.search("^[0-9]{6,},", line):
         line = line.split(",")
         fecha = line[1]
-        unix_time = time.mktime(datetime.datetime.strptime(fecha, "%Y-%m-%d %H:%M:%S +%f").timetuple())
+        unix_time = time.mktime(datetime.strptime(fecha, "%Y-%m-%d %H:%M:%S +%f").timetuple())
         # correct for local time Lima -5 hours
         unix_time -= 60*60*5
         print unix_time
         fecha = fecha.split(" ")[0]
-        my_time = datetime.datetime.strptime(fecha, "%Y-%m-%d")
+        my_time = datetime.strptime(fecha, "%Y-%m-%d")
         if my_time not in timestamps:
             timestamps.append(my_time)
 
